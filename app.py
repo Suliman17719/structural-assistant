@@ -1,8 +1,11 @@
+import time
+
 import streamlit as st
 from google import genai
 from google.genai import types
 
 MODEL = "gemini-3.8-flash"
+FALLBACK_MODEL = "gemini-flash-latest"
 
 SYSTEM_PROMPT = """
 أنت مهندس إنشائي خبير ومساعد متخصص في الهندسة المدنية - قسم الإنشاءات فقط.
@@ -49,10 +52,6 @@ st.caption(
 
 client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
-import time
-
-FALLBACK_MODEL = "gemini-flash-latest"
-
 
 def generate(contents):
     config = types.GenerateContentConfig(
@@ -71,6 +70,8 @@ def generate(contents):
                 last_error = e
                 time.sleep(2 * (attempt + 1))
     raise last_error
+
+
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -119,7 +120,7 @@ if prompt:
         with st.spinner("جاري التحليل..."):
             code_used = ""
             try:
-              response = generate(contents)
+                response = generate(contents)
                 answer = response.text or "لم أستطع توليد إجابة، أعد المحاولة."
                 for part in response.candidates[0].content.parts:
                     if getattr(part, "executable_code", None):
@@ -133,4 +134,4 @@ if prompt:
 
     st.session_state.messages.append(
         {"role": "assistant", "text": answer, "files": [], "code": code_used}
-      )
+  )
