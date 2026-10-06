@@ -41,7 +41,13 @@ SYSTEM_PROMPT = """
 
 st.set_page_config(page_title="مساعد الإنشاءات", page_icon="🏗️")
 st.markdown(
-    "<style>.stChatMessage{direction:rtl;text-align:right;}</style>",
+    """
+    <style>
+    .stChatMessage{direction:rtl;text-align:right;}
+    h1{background:#111111;color:#38BDF8;padding:14px 18px;
+       border-radius:12px;}
+    </style>
+    """,
     unsafe_allow_html=True,
 )
 st.title("🏗️ مساعد الهندسة الإنشائية")
