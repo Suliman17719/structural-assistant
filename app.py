@@ -49,6 +49,28 @@ st.caption(
 
 client = genai.Client(api_key=st.secrets["GEMINI_API_KEY"])
 
+import time
+
+FALLBACK_MODEL = "gemini-flash-latest"
+
+
+def generate(contents):
+    config = types.GenerateContentConfig(
+        system_instruction=SYSTEM_PROMPT,
+        temperature=0.2,
+        tools=[types.Tool(code_execution=types.ToolCodeExecution())],
+    )
+    last_error = None
+    for model in [MODEL, FALLBACK_MODEL]:
+        for attempt in range(3):
+            try:
+                return client.models.generate_content(
+                    model=model, contents=contents, config=config
+                )
+            except Exception as e:
+                last_error = e
+                time.sleep(2 * (attempt + 1))
+    raise last_error
 if "messages" not in st.session_state:
     st.session_state.messages = []
 
@@ -97,17 +119,7 @@ if prompt:
         with st.spinner("جاري التحليل..."):
             code_used = ""
             try:
-                response = client.models.generate_content(
-                    model=MODEL,
-                    contents=contents,
-                    config=types.GenerateContentConfig(
-                        system_instruction=SYSTEM_PROMPT,
-                        temperature=0.2,
-                        tools=[
-                            types.Tool(code_execution=types.ToolCodeExecution())
-                        ],
-                    ),
-                )
+              response = generate(contents)
                 answer = response.text or "لم أستطع توليد إجابة، أعد المحاولة."
                 for part in response.candidates[0].content.parts:
                     if getattr(part, "executable_code", None):
