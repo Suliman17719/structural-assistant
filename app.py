@@ -2,7 +2,7 @@ import streamlit as st
 from google import genai
 from google.genai import types
 
-MODEL = "gemini-2.5-flash"
+MODEL = "gemini-3.8-flash"
 
 SYSTEM_PROMPT = """
 أنت مهندس إنشائي خبير ومساعد متخصص في الهندسة المدنية - قسم الإنشاءات فقط.
