@@ -39,7 +39,7 @@ SYSTEM_PROMPT = """
     في الإنشاءات فقط.
 """
 
-st.set_page_config(page_title="مساعد الإنشاءات", page_icon="🏗️")
+st.set_page_config(page_title="مساعد الإنشاءات", page_icon="logo.png")
 st.markdown(
     """
     <style>
