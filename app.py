@@ -4,8 +4,8 @@ import streamlit as st
 from google import genai
 from google.genai import types
 
-MODEL = "gemini-3.8-flash"
-FALLBACK_MODEL = "gemini-flash-latest"
+MODEL = "gemini-3.5-flash"
+FALLBACK_MODEL = "gemini-3.1-flash-lite"
 
 SYSTEM_PROMPT = """
 أنت مهندس إنشائي خبير ومساعد متخصص في الهندسة المدنية - قسم الإنشاءات فقط.
