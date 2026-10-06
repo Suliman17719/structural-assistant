@@ -1,4 +1,2 @@
-streamlit>=1.43
+streamlit
 google-genai
-
-16
